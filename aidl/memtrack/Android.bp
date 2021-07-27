@@ -9,7 +9,7 @@ cc_binary {
         "libutils",
         "liblog",
         "libbinder_ndk",
-        "android.hardware.memtrack-V1-ndk_platform",
+        "android.hardware.memtrack-V1-ndk",
         "libhardware",
         "libhardware_legacy",
     ],
