@@ -6,11 +6,20 @@ cc_binary {
     vendor: true,
     shared_libs: [
         "libbase",
+        "libutils",
+        "liblog",
         "libbinder_ndk",
         "android.hardware.memtrack-V1-ndk_platform",
+        "libhardware",
+        "libhardware_legacy",
     ],
     srcs: [
         "main.cpp",
         "Memtrack.cpp",
+    ],
+    static_libs: [
+        "libdmabufinfo",
+        "libcutils",
+        "libutils",
     ],
 }
