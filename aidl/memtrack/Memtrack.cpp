@@ -21,6 +21,9 @@
 #include <cstdio>
 #include <vector>
 
+#include <sys/stat.h>
+#include <unistd.h>
+
 namespace aidl {
 namespace android {
 namespace hardware {
@@ -147,8 +150,21 @@ ndk::ScopedAStatus Memtrack::getMemory(int pid, MemtrackType type,
 }
 
 ndk::ScopedAStatus Memtrack::getGpuDeviceInfo(std::vector<DeviceInfo>* _aidl_return) {
+    const std::string sysfsPath = "/sys/class/misc/mali0/device";
+    std::string devName = "mali_gpu";
+
+    struct stat statbuf;
+    if (lstat(sysfsPath.c_str(), &statbuf) == 0 && S_ISLNK(statbuf.st_mode)) {
+        char buffer[PATH_MAX];
+        ssize_t len = readlink(sysfsPath.c_str(), buffer, sizeof(buffer) - 1);
+        if (len != -1) {
+            buffer[len] = '\0';
+            devName = std::string(buffer);
+        }
+    }
+
     _aidl_return->clear();
-    _aidl_return->emplace_back(DeviceInfo{.id = 0, .name = "virtio_gpu"});
+    _aidl_return->emplace_back(DeviceInfo{.id = 0, .name = devName});
     return ndk::ScopedAStatus::ok();
 }
 
