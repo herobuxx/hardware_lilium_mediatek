@@ -15,12 +15,9 @@
  */
 
 #include "Memtrack.h"
-#include <android-base/logging.h>
 #include <log/log.h>
-#include <string.h>
 #include <cstdio>
 #include <vector>
-
 #include <sys/stat.h>
 #include <unistd.h>
 
